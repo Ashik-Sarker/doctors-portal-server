@@ -160,9 +160,19 @@ async function run() {
         res.send(result);
       })
 
+      // Get all doctors
       app.get('/doctor', verifyJWT, verifyAdmin, async (req, res) => {
         const doctors = await doctorCollection.find().toArray();
         res.send(doctors);
+      })
+
+      // Delete badamwala doctors
+      app.delete('/doctor/:email', async(req, res) => {
+        const email = req.params.email;
+        // console.log(email);
+        const filter = { email: email };
+        const result = await doctorCollection.deleteOne(filter);
+        res.send(result);
       })
 
     }
